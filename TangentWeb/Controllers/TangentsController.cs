@@ -70,6 +70,7 @@ namespace TangentWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                tangentitem.Date = DateTime.Now.ToString();
                 db.TangentItems.Add(tangentitem);
                 db.SaveChanges();
 
