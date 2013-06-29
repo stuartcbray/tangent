@@ -1,0 +1,114 @@
+﻿
+
+@model IEnumerable<TangentWeb.Models.TangentItem>
+@{
+    ViewBag.Title = "Home";
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/knockout")
+
+    <script type="text/javascript">
+
+        @functions
+        {
+            public string TokenHeaderValue()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;                
+            }
+        }
+
+        function TangentsViewModel() {
+
+            var self = this;
+            self.tangents = ko.observableArray([]);
+            self.addTangent = function () {
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "api/tangents",
+                    data: $("#addTangent").serialize(), 
+                    success: function (value) {
+                        self.tangents.push(value);
+                    },
+                    headers: {
+                        'RequestVerificationToken': '@TokenHeaderValue()'
+                    }
+                   });
+            }
+
+            self.removeTangent = function (tangent) {
+                var deleteUrl = "api/tangents/" + tangent.id;
+                $.ajax({
+                    type: "DELETE",
+                    url: deleteUrl,
+                    success: function () {
+                        self.tangents.remove(tangent);
+                    },
+                    headers: {
+                    'RequestVerificationToken': '@TokenHeaderValue()'
+                    }
+                });
+            }
+
+            $.getJSON("api/tangents", function (data) {
+                self.tangents(data);
+            });
+
+        }
+
+        ko.applyBindings(new TangentsViewModel());
+
+    </script>
+}
+<ul id="tangents" data-bind="foreach: tangents">
+    <li class="ui-widget-content ui-corner-all">
+        <h1 data-bind="text: Title" class="ui-widget-header"></h1>
+        <div><span data-bind="text: $data.Text || 'Text?'"></span></div>
+        <div>
+            <span data-bind="text: $data.Date || 'Date?'"></span>,
+            <span data-bind="text: $data.PosterId || 'PosterId?'"></span>
+        </div>
+
+        @if (Request.IsAuthenticated) 
+        {
+            <p><a data-bind="attr: { href: self }, click: $root.removeTangent" class="removeTangent ui-state-default ui-corner-all">Remove</a></p>
+        }
+
+    </li>
+</ul>
+
+
+@if (Request.IsAuthenticated) 
+{
+    using (Html.BeginForm("PutTangentItem", "TangentsController", FormMethod.Post, new Dictionary<string, object> { { "data-bind", "submit:addTangent" }, { "id", "addTangent" } }))
+    {
+        @Html.AntiForgeryToken()
+    
+        <fieldset>
+            <legend>Add New Tangent</legend>
+            <ol>
+                <li>
+                    <label for="Name">Title</label>
+                    <input type="text" name="Title" />
+                </li>
+                <li>
+                    <label for="Address">Text</label>
+                    <input type="text" name="Text" >
+                </li>
+            </ol>
+            <input type="submit" value="Add" />
+        </fieldset>
+   
+    }
+
+}
+else
+{
+    <h3>Welcome to Tangent.</h3>
+}
+
+

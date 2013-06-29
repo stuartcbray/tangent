@@ -1,0 +1,78 @@
+﻿@model TangentWeb.Models.TangentItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>TangentItem</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ImageUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ImageUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Text)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Text)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Complete)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Complete)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PosterId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PosterId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PosterImageUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PosterImageUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DeviceToken)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DeviceToken)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OriginalUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OriginalUrl)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

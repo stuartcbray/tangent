@@ -1,0 +1,100 @@
+﻿@model TangentWeb.Models.TangentItem
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>TangentItem</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ImageUrl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ImageUrl)
+            @Html.ValidationMessageFor(model => model.ImageUrl)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Text)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Text)
+            @Html.ValidationMessageFor(model => model.Text)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Date)
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Complete)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Complete)
+            @Html.ValidationMessageFor(model => model.Complete)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PosterId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PosterId)
+            @Html.ValidationMessageFor(model => model.PosterId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PosterImageUrl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PosterImageUrl)
+            @Html.ValidationMessageFor(model => model.PosterImageUrl)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DeviceToken)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DeviceToken)
+            @Html.ValidationMessageFor(model => model.DeviceToken)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OriginalUrl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OriginalUrl)
+            @Html.ValidationMessageFor(model => model.OriginalUrl)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
