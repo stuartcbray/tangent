@@ -3,7 +3,7 @@ namespace TangentWeb.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -15,7 +15,7 @@ namespace TangentWeb.Migrations
                         ImageUrl = c.String(),
                         Title = c.String(),
                         Text = c.String(),
-                        Date = c.String(),
+                        Date = c.DateTime(nullable: false),
                         Complete = c.Boolean(nullable: false),
                         PosterId = c.String(),
                         PosterImageUrl = c.String(),

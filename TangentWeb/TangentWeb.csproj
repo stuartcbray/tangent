@@ -191,9 +191,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201306200241540_Initial.cs" />
-    <Compile Include="Migrations\201306200241540_Initial.Designer.cs">
-      <DependentUpon>201306200241540_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201306292350226_InitialCreate.cs" />
+    <Compile Include="Migrations\201306292350226_InitialCreate.Designer.cs">
+      <DependentUpon>201306292350226_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -275,6 +275,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -324,8 +325,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201306200241540_Initial.resx">
-      <DependentUpon>201306200241540_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201306292350226_InitialCreate.resx">
+      <DependentUpon>201306292350226_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

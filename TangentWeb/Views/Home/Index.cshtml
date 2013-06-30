@@ -62,6 +62,20 @@
 
         ko.applyBindings(new TangentsViewModel());
 
+        ko.bindingHandlers.date = {
+            update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                var value = valueAccessor();
+                var formatString = allBindingsAccessor().formatString;
+                var date = moment.utc(value).local();
+                if (formatString == null) {
+                    $(element).text(date.format("dddd, MMM D YYYY, h:mm:ss a"));
+                }
+                else {
+                    $(element).text(date.format(formatString));
+                }
+            }
+        };
+
     </script>
 }
 <ul id="tangents" data-bind="foreach: tangents">
@@ -69,7 +83,9 @@
         <h1 data-bind="text: Title" class="ui-widget-header"></h1>
         <div><span data-bind="text: $data.Text || 'Text?'"></span></div>
         <div>
-            <span data-bind="text: $data.Date || 'Date?'"></span>,
+            <span data-bind="date: $data.Date || 'Date?'"></span>
+        </div>
+        <div>
             <span data-bind="text: $data.PosterId || 'PosterId?'"></span>
         </div>
 
