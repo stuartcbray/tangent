@@ -68,7 +68,7 @@
                 var formatString = allBindingsAccessor().formatString;
                 var date = moment.utc(value).local();
                 if (formatString == null) {
-                    $(element).text(date.format("dddd, MMM D YYYY, h:mm:ss a"));
+                    $(element).text(date.format("MMM D YYYY, h:mm:ss a"));
                 }
                 else {
                     $(element).text(date.format(formatString));

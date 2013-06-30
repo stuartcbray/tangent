@@ -71,6 +71,7 @@ namespace TangentWeb.Controllers
             if (ModelState.IsValid)
             {
                 tangentitem.Date = DateTime.UtcNow;
+                tangentitem.PosterId = User.Identity.Name;
                 db.TangentItems.Add(tangentitem);
                 db.SaveChanges();
 
