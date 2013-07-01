@@ -18,6 +18,7 @@ namespace TangentWeb
     protected void Application_Start()
     {
       AreaRegistration.RegisterAllAreas();
+      RouteTable.Routes.MapHubs();
 
       WebApiConfig.Register(GlobalConfiguration.Configuration);
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -25,7 +26,7 @@ namespace TangentWeb
       BundleConfig.RegisterBundles(BundleTable.Bundles);
       AuthConfig.RegisterAuth();
       GlobalConfiguration.Configuration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
-      System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseAlways<TangentWeb.Models.TangentWebContext>());
+      System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseAlways<TangentWeb.Models.TangentWebContext>());    
     }
   }
 }

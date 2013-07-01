@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
-using TangentWeb.Filters;
+using Microsoft.AspNet.SignalR;
 using TangentWeb.Models;
 
 namespace TangentWeb.Controllers
@@ -16,7 +14,7 @@ namespace TangentWeb.Controllers
 
     public class TangentsController : ApiController
     {
-        private TangentWebContext db = new TangentWebContext();
+        TangentWebContext db = new TangentWebContext();
 
         // GET api/Tangents
         [AllowAnonymous]
@@ -75,6 +73,10 @@ namespace TangentWeb.Controllers
                 db.TangentItems.Add(tangentitem);
                 db.SaveChanges();
 
+                var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.TangentHub>();
+
+                context.Clients.All.newTangentReceived(tangentitem.id);
+
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, tangentitem);
                 response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = tangentitem.id }));
                 return response;
@@ -113,5 +115,6 @@ namespace TangentWeb.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
     }
 }

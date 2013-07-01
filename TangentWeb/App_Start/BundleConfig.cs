@@ -9,7 +9,8 @@ namespace TangentWeb
     public static void RegisterBundles(BundleCollection bundles)
     {
       bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                  "~/Scripts/jquery-{version}.js"));
+                  "~/Scripts/jquery-{version}.js",
+              "~/Scripts/jquery.signalR-{version}.js"));
 
       bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                   "~/Scripts/jquery-ui-{version}.js"));
@@ -43,6 +44,7 @@ namespace TangentWeb
 
       bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
             "~/Scripts/knockout-{version}.js"));
+
     }
   }
 }
