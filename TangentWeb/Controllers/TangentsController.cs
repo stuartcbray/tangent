@@ -53,8 +53,7 @@ namespace TangentWeb.Controllers
         {
             if (ModelState.IsValid && Request.Content.IsMimeMultipartContent())
             {
-                string root = HttpContext.Current.Server.MapPath("~/App_Data");
-                var provider = new MultipartFormDataStreamProvider(root);
+                var provider = new MultipartFormDataStreamProvider(Path.GetTempPath());
 
                 try
                 {
