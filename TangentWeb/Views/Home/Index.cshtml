@@ -26,20 +26,6 @@
 
             var self = this;
             self.tangents = ko.observableArray([]);
-            self.addTangent = function () {
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    url: "api/tangents",
-                    data: $("#addTangent").serialize(), 
-                    success: function (value) {
-                        self.tangents.push(value);
-                    },
-                    headers: {
-                        'RequestVerificationToken': '@TokenHeaderValue()'
-                    }
-                   });
-            }
 
             self.removeTangent = function (tangent) {
                 var deleteUrl = "api/tangents/" + tangent.id;
@@ -76,6 +62,22 @@
                 }
             }
         };
+
+    </script>
+
+    <script>
+   
+        $(document).ready(function () {
+
+            var options = {
+                headers: {
+                    'RequestVerificationToken': '@TokenHeaderValue()'
+                }
+            };
+
+            $('#addTangent').ajaxForm(options);
+
+        });
 
     </script>
 
@@ -122,7 +124,7 @@
 
 @if (Request.IsAuthenticated) 
 {
-    using (Html.BeginForm("PutTangentItem", "TangentsController", FormMethod.Post, new Dictionary<string, object> { { "data-bind", "submit:addTangent" }, { "id", "addTangent" } }))
+    using (Html.BeginForm("Tangents", "api", FormMethod.Post, new Dictionary<string, object> { { "id", "addTangent" }, { "enctype", "multipart/form-data" } }))
     {
         @Html.AntiForgeryToken()
     
@@ -136,6 +138,10 @@
                 <li>
                     <label for="Text">Text</label>
                     <input type="text" name="Text" >
+                </li>
+                <li>
+                    <label for="photo">Photo</label>
+                    <input name="photo" type="file" />
                 </li>
             </ol>
             <input type="submit" value="Add" />

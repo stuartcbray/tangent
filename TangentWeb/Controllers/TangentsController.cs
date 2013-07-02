@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.SignalR;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using TangentWeb.Models;
 
 namespace TangentWeb.Controllers
@@ -14,7 +20,13 @@ namespace TangentWeb.Controllers
 
     public class TangentsController : ApiController
     {
-        TangentWebContext db = new TangentWebContext();
+        readonly TangentWebContext db;
+
+        public TangentsController()
+        {
+            db = new TangentWebContext();
+        }
+
 
         // GET api/Tangents
         [AllowAnonymous]
@@ -36,50 +48,72 @@ namespace TangentWeb.Controllers
             return tangentitem;
         }
 
-        // PUT api/Tangents/5
-        public HttpResponseMessage PutTangentItem(int id, TangentItem tangentitem)
+        // POST api/tangents
+        public async Task<HttpResponseMessage> Post()
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid && Request.Content.IsMimeMultipartContent())
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+                string root = HttpContext.Current.Server.MapPath("~/App_Data");
+                var provider = new MultipartFormDataStreamProvider(root);
 
-            if (id != tangentitem.id)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+                try
+                {
+                    await Request.Content.ReadAsMultipartAsync(provider);
 
-            db.Entry(tangentitem).State = EntityState.Modified;
+                    var text = new StringBuilder();
+                    var title = new StringBuilder();
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
+                    foreach (var key in provider.FormData.AllKeys)
+                    {
+                        foreach (var val in provider.FormData.GetValues(key))
+                        {
+                            switch (key)
+                            {
+                                case "Text":
+                                    text.Append(val);
+                                    break;
+                                case "Title":
+                                    title.Append(val);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
 
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
+                    var tangent = new TangentItem(title.ToString(), text.ToString(), System.DateTime.UtcNow, User.Identity.Name);
+                    db.TangentItems.Add(tangent);
+                    db.SaveChanges();
 
-        // POST api/Tangents
-        public HttpResponseMessage PostTangentItem(TangentItem tangentitem)
-        {
-            if (ModelState.IsValid)
-            {
-                tangentitem.Date = DateTime.UtcNow;
-                tangentitem.PosterId = User.Identity.Name;
-                db.TangentItems.Add(tangentitem);
-                db.SaveChanges();
+                    // This illustrates how to get the file names for uploaded files.
+                    // TODO: perform this in an async / await routine
+                    foreach (var file in provider.FileData)
+                    {
+                        FileInfo fileInfo = new FileInfo(file.LocalFileName);
+                       
+                        string fileName = Path.GetFileName(file.Headers.ContentDisposition.FileName.Trim('"'));
+                        var blob = GetContainer().GetBlockBlobReference(fileName);
 
-                var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.TangentHub>();
+                        using (var stream = File.OpenRead(file.LocalFileName))
+                        {
+                            blob.UploadFromStream(stream);
+                        }
 
-                context.Clients.All.newTangentReceived(tangentitem.id);
+                        File.Delete(file.LocalFileName);
+                    }
 
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, tangentitem);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = tangentitem.id }));
-                return response;
+                    // Broadcast on the hub for all listeners
+                    var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.TangentHub>();
+                    context.Clients.All.newTangentReceived(tangent.id);
+
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, tangent);
+                    response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = tangent.id }));
+                    return response;
+                }
+                catch (System.Exception e)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+                }
             }
             else
             {
@@ -114,6 +148,28 @@ namespace TangentWeb.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        CloudBlobContainer GetContainer()
+        {
+            // Retrieve storage account from connection string.
+            var storageAccount = CloudStorageAccount.Parse(
+                CloudConfigurationManager.GetSetting("StorageConnectionString"));
+
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference("photos");
+
+            // Create the container if it doesn't already exist.
+            container.CreateIfNotExists();
+
+            var permissions = container.GetPermissions();
+            if (permissions.PublicAccess == BlobContainerPublicAccessType.Off)
+            {
+                permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
+                container.SetPermissions(permissions);
+            }
+
+            return container;
         }
 
     }

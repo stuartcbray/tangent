@@ -207,7 +207,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Controllers\TangentsController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
@@ -224,7 +223,6 @@
     <Compile Include="Models\TangentItem.cs" />
     <Compile Include="Models\TangentWebContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\StorageHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\tangents.css" />
@@ -291,6 +289,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.signalR-1.1.2.js" />
     <Content Include="Scripts\jquery.signalR-1.1.2.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

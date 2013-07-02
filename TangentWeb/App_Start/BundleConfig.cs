@@ -10,6 +10,7 @@ namespace TangentWeb
     {
       bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                   "~/Scripts/jquery-{version}.js",
+                  "~/Scripts/jquery.form.js",
               "~/Scripts/jquery.signalR-{version}.js"));
 
       bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
