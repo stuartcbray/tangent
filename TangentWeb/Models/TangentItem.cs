@@ -9,8 +9,12 @@ namespace TangentWeb.Models
 {
     public class TangentItem
     {
+        public enum TangentVisibility { Private, Public, Friends, GeoLocation };
+
+        public enum TangentStatus { Draft, Complete };
 
         public TangentItem() { }
+
         public TangentItem(string title, string text, DateTime date, string posterId)
         {
             Title = title;
@@ -29,8 +33,10 @@ namespace TangentWeb.Models
 
         public DateTime Date { get; set; }
 
-        public bool Complete { get; set; }
+        public TangentStatus Status { get; set; }
 
+        public TangentVisibility Visibility { get; set; }
+        
         public string PosterId { get; set; }
 
         public string PosterImageUrl { get; set; }

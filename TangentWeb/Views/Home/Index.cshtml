@@ -47,7 +47,9 @@
 
         }
 
-        ko.applyBindings(new TangentsViewModel());
+        var tangentsViewModel = new TangentsViewModel();
+
+        ko.applyBindings(tangentsViewModel);
 
         ko.bindingHandlers.date = {
             update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -63,23 +65,80 @@
             }
         };
 
-    </script>
 
-    <script>
-   
         $(document).ready(function () {
+
+            var bar = $('.bar');
+            var percent = $('.percent');
+            var status = $('#status');
 
             var options = {
                 headers: {
                     'RequestVerificationToken': '@TokenHeaderValue()'
+                },
+                success: function (tangent) {
+                    var percentVal = '100%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                beforeSend: function () {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+
+                    $('#progressBar').fadeIn();
+
+                    status.html("Posting Tangent ...");
+                },
+                beforeSubmit: function () {
+                    $('#status').fadeIn();
+
+                    if ($('#tangentTitle').val() == '') {
+                        status.html("Tangent must have text.");
+                        return false;
+                    } else if ($('#tangentText').val() == '') {
+                        status.html("Tangent must have a title.");
+                        return false;
+                    }
+
+                    // Tangents are allowed to not have photos. 
+                    var file = $('#fileControl')[0].files[0];
+                    if (file) {
+                        if (file.size > 100000) {
+                            status.html("File is too big. Please keep it under 100KB.");
+                            return false;
+                        } else if (file.type != "image/png" && file.type != "image/jpeg") {
+                            status.html("File must be a JPEG or PNG image.");
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                complete: function (xhr) {
+                    status.html("Tangent posted!");
+                    $('#status').fadeOut(5000, function () {
+                        // Animation complete.
+                        $('#progressBar').hide();
+                    });
+
+                    var fc = $('#fileControl');
+                    fc.replaceWith(fc = fc.clone(true));
+                    $('#tangentText').val('');
+                    $('#tangentTitle').val('');
                 }
             };
 
             $('#addTangent').ajaxForm(options);
 
         });
-
     </script>
+
 
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
@@ -87,13 +146,9 @@
             // Declare a proxy to reference the hub. 
             var tangentWeb = $.connection.tangentHub;
 
-            var $tangentList = $("#tangents");
-
-            tangentWeb.client.newTangentReceived = function (id) {
-                var $item = $("<li/>").append(id).hide();
-                $tangentList.prepend($item);
-                $item.fadeIn();
-            };
+            tangentWeb.client.newTangentReceived = function (tangent) {
+                tangentsViewModel.tangents.push(tangent);
+            }
 
             $.connection.hub.start().done(function () {
                 $("#Status").html("Connected");
@@ -111,6 +166,9 @@
         </div>
         <div>
             <span data-bind="text: $data.PosterId || 'PosterId?'"></span>
+        </div>
+        <div>
+            <img data-bind="attr: { src: $data.ImageUrl }" />  
         </div>
 
         @if (Request.IsAuthenticated) 
@@ -133,19 +191,26 @@
             <ol>
                 <li>
                     <label for="Title">Title</label>
-                    <input type="text" name="Title" />
+                    <input type="text" name="Title" id="tangentTitle"/>
                 </li>
                 <li>
                     <label for="Text">Text</label>
-                    <input type="text" name="Text" >
+                    <input type="text" name="Text" id="tangentText">
                 </li>
                 <li>
                     <label for="photo">Photo</label>
-                    <input name="photo" type="file" />
+                    <input name="photo" type="file" id="fileControl"/>
                 </li>
             </ol>
             <input type="submit" value="Add" />
         </fieldset>
+    
+        <div id="progressBar" class="progress">
+            <div class="bar"></div >
+            <div class="percent">0%</div >
+        </div>
+    
+        <div id="status"></div>
    
     }
 

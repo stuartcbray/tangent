@@ -48,6 +48,46 @@ namespace TangentWeb.Controllers
             return tangentitem;
         }
 
+        bool StoreTangent(MultipartFormDataStreamProvider provider, TangentItem tangent)
+        {
+            // If there's a photo, then upload it to Azure storage and set the photo url in the tangent
+            if (provider.FileData.Count == 1)
+            {
+                var file = provider.FileData[0];
+
+                try
+                {
+                    var fileName = Path.GetFileName(file.Headers.ContentDisposition.FileName.Trim('"'));
+                    var fileNoExt = Path.GetFileNameWithoutExtension(fileName);
+                    fileName = fileNoExt + "_" + DateTime.UtcNow.Ticks.ToString() + Path.GetExtension(fileName);
+
+                    var blob = GetContainer().GetBlockBlobReference(fileName);
+
+                    using (var stream = File.OpenRead(file.LocalFileName))
+                    {
+                        blob.UploadFromStream(stream);
+                    }
+
+                    File.Delete(file.LocalFileName);
+
+                    tangent.ImageUrl = blob.Uri.AbsoluteUri;
+                }
+                catch (Exception e)
+                {
+                    // Log me
+                }
+            }
+            
+            if (provider.FileData.Count == 1 || provider.FileData.Count == 0)
+            {
+                db.TangentItems.Add(tangent);
+                db.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
         // POST api/tangents
         public async Task<HttpResponseMessage> Post()
         {
@@ -59,51 +99,28 @@ namespace TangentWeb.Controllers
                 {
                     await Request.Content.ReadAsMultipartAsync(provider);
 
-                    var text = new StringBuilder();
-                    var title = new StringBuilder();
+                    var title = provider.FormData["Title"];
+                    var text = provider.FormData["Text"];
 
-                    foreach (var key in provider.FormData.AllKeys)
+                    if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(text))
                     {
-                        foreach (var val in provider.FormData.GetValues(key))
-                        {
-                            switch (key)
-                            {
-                                case "Text":
-                                    text.Append(val);
-                                    break;
-                                case "Title":
-                                    title.Append(val);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
                     }
 
-                    var tangent = new TangentItem(title.ToString(), text.ToString(), System.DateTime.UtcNow, User.Identity.Name);
-                    db.TangentItems.Add(tangent);
-                    db.SaveChanges();
+                    var tangent = new TangentItem(title, text, System.DateTime.UtcNow, User.Identity.Name);
 
-                    // This illustrates how to get the file names for uploaded files.
-                    // TODO: perform this in an async / await routine
-                    foreach (var file in provider.FileData)
+                    var storageTask = Task<bool>.Factory.StartNew(() => StoreTangent(provider, tangent));
+
+                    await storageTask;
+
+                    if (storageTask.Result == false)
                     {
-                        FileInfo fileInfo = new FileInfo(file.LocalFileName);
-                       
-                        string fileName = Path.GetFileName(file.Headers.ContentDisposition.FileName.Trim('"'));
-                        var blob = GetContainer().GetBlockBlobReference(fileName);
-
-                        using (var stream = File.OpenRead(file.LocalFileName))
-                        {
-                            blob.UploadFromStream(stream);
-                        }
-
-                        File.Delete(file.LocalFileName);
+                        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ModelState);
                     }
-
+                   
                     // Broadcast on the hub for all listeners
                     var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.TangentHub>();
-                    context.Clients.All.newTangentReceived(tangent.id);
+                    context.Clients.All.newTangentReceived(tangent);
 
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, tangent);
                     response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = tangent.id }));
@@ -120,16 +137,22 @@ namespace TangentWeb.Controllers
             }
         }
 
-        // DELETE api/Tangents/5
-        public HttpResponseMessage DeleteTangentItem(int id)
+        void DeleteTangentPhoto(string blobName)
         {
-            TangentItem tangentitem = db.TangentItems.Find(id);
-            if (tangentitem == null)
+            var blob = GetContainer().GetBlockBlobReference(blobName);
+            blob.Delete();   
+        }
+
+        // DELETE api/Tangents/5
+        public async Task<HttpResponseMessage> DeleteTangentItem(int id)
+        {
+            TangentItem tangent = db.TangentItems.Find(id);
+            if (tangent == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            db.TangentItems.Remove(tangentitem);
+            db.TangentItems.Remove(tangent);
 
             try
             {
@@ -140,7 +163,18 @@ namespace TangentWeb.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, tangentitem);
+            if (!string.IsNullOrEmpty(tangent.ImageUrl))
+            {
+                int i = tangent.ImageUrl.LastIndexOf('/');
+                if (i > 0 && i < tangent.ImageUrl.Length - 1)
+                {
+                    var blobName = tangent.ImageUrl.Substring(i + 1);
+                    var deleteTask = Task.Factory.StartNew(() => DeleteTangentPhoto(blobName));
+                    await deleteTask;
+                }
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, tangent);
         }
 
         protected override void Dispose(bool disposing)
