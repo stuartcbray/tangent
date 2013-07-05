@@ -166,7 +166,7 @@
             var tangentWeb = $.connection.tangentHub;
 
             tangentWeb.client.newTangentReceived = function (tangent) {
-                tangentsViewModel.tangents.push(tangent);
+                tangentsViewModel.tangents.unshift(tangent);
                 $('.tangentText').dotdotdot({
                     after: "a.readMoreLink",
                     callback: hideLinkIfNoTruncation
