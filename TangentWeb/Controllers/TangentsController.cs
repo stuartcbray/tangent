@@ -32,7 +32,7 @@ namespace TangentWeb.Controllers
         [AllowAnonymous]
         public IEnumerable<TangentItem> GetTangentItems()
         {
-            return db.TangentItems.AsEnumerable();
+            return db.TangentItems.AsEnumerable().OrderByDescending(t => t.Date);
         }
 
         // GET api/Tangents/5
