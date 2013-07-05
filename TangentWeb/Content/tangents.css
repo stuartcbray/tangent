@@ -14,13 +14,20 @@ form li {
     margin: 3px;
 }
 form input[type="text"] {
-    width: 100%;
+    width: 80%;
 }
 #addTangent {
     width: 300px;
     float: left;
     width:30%;
 }
+
+#addTangent textarea
+{
+	width: 400px;
+	height: 300px;
+}
+
 #tangents {
     list-style-type: none;
     margin: 0;
@@ -28,24 +35,30 @@ form input[type="text"] {
     float:left;
     width: 70%;
 }
+
 #tangents li {
     margin: 3px 3px 3px 0;
     padding: 1px;
     float: left;
     width: 300px;
+	height: 420px;
     text-align: center;
     background-image: none;
     background-color: #F5F5F5;
 }
-#tangents li h1
+
+#tangents li h2
 {
-    padding: 0;
+    padding: 5px;
     margin: 0;
     background-image: none;
-    background-color: Orange;
+    background-color: #474973;
     color: White;
-    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+	font-weight: normal;
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size:20px;
 }
+
 .removeTangent, .viewImage
 {
     padding: 3px;
@@ -55,6 +68,32 @@ form input[type="text"] {
 .progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; display: none; }
 .bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
 .percent { position:absolute; display:inline-block; top:3px; left:48%; }
+
+#tangents li h5
+{
+	margin-top: -30px;
+	margin-left: 10px;
+	padding: 0;
+    color: White;
+    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+	text-align: left;
+	font-weight:normal;
+}
+
+.tangentText
+{
+	height: 135px;
+    width: 280px;
+    font-size: 14px;
+    margin: 5px;
+    padding: 5px;
+	text-align: left;
+}
+
+.crop img {
+    width: 300px;
+    height: 200px;
+}
 
 #status
 {

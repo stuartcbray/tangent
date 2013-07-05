@@ -22,10 +22,18 @@
             }
         }
 
+        function hideLinkIfNoTruncation(isTruncated, origContent) {
+            if (!isTruncated) {
+                $('.readMoreLink', this).remove()
+            }
+        }
+
         function TangentsViewModel() {
 
             var self = this;
             self.tangents = ko.observableArray([]);
+
+            self.UserName = '@User.Identity.Name';
 
             self.removeTangent = function (tangent) {
                 var deleteUrl = "api/tangents/" + tangent.id;
@@ -43,6 +51,13 @@
 
             $.getJSON("api/tangents", function (data) {
                 self.tangents(data);
+
+                $('.tangentText').dotdotdot({
+                    after: "a.readMoreLink",
+                    callback: hideLinkIfNoTruncation
+                });
+
+
             });
 
         }
@@ -97,7 +112,7 @@
                     if ($('#tangentTitle').val() == '') {
                         status.html("Tangent must have text.");
                         return false;
-                    } else if ($('#tangentText').val() == '') {
+                    } else if ($('#text').val() == '') {
                         status.html("Tangent must have a title.");
                         return false;
                     }
@@ -129,7 +144,7 @@
 
                     var fc = $('#fileControl');
                     fc.replaceWith(fc = fc.clone(true));
-                    $('#tangentText').val('');
+                    $('#text').val('');
                     $('#tangentTitle').val('');
                 }
             };
@@ -148,6 +163,10 @@
 
             tangentWeb.client.newTangentReceived = function (tangent) {
                 tangentsViewModel.tangents.push(tangent);
+                $('.tangentText').dotdotdot({
+                    after: "a.readMoreLink",
+                    callback: hideLinkIfNoTruncation
+                });
             }
 
             $.connection.hub.start().done(function () {
@@ -159,28 +178,34 @@
 
 <ul id="tangents" data-bind="foreach: tangents">
     <li class="ui-widget-content ui-corner-all">
-        <h1 data-bind="text: Title" class="ui-widget-header"></h1>
-        <div><span data-bind="text: $data.Text || 'Text?'"></span></div>
-        <div>
-            <span data-bind="date: $data.Date || 'Date?'"></span>
-        </div>
-        <div>
-            <span data-bind="text: $data.PosterId || 'PosterId?'"></span>
-        </div>
-        <div>
+        <h2 data-bind="text: Title" class="ui-widget-header"></h2>
+        <div class="crop">
             <img data-bind="attr: { src: $data.ImageUrl }" />  
         </div>
-
+        <div class="authorInfo">
+            <h5>
+                <span data-bind="date: $data.Date || 'Date?'"></span> by <span data-bind="text: $data.PosterId || 'PosterId?'"></span>
+            </h5>
+        </div>
+        <div class="tangentText">
+            <p>
+                <span data-bind="text: $data.Text || 'Text?'"></span>
+                <a href="#" class="readMoreLink">Read More</a>
+            </p>
+        </div>
+        
         @if (Request.IsAuthenticated) 
         {
-            <p><a data-bind="attr: { href: self }, click: $root.removeTangent" class="removeTangent ui-state-default ui-corner-all">Remove</a></p>
+            <div data-bind="visible: $data.PosterId === tangentsViewModel.UserName ">
+                <p><a data-bind="attr: { href: self }, click: $root.removeTangent" class="removeTangent ui-state-default ui-corner-all">Remove</a></p>
+            </div>
         }
 
     </li>
 </ul>
 
 
-@if (Request.IsAuthenticated) 
+@if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("Tangents", "api", FormMethod.Post, new Dictionary<string, object> { { "id", "addTangent" }, { "enctype", "multipart/form-data" } }))
     {
@@ -194,13 +219,14 @@
                     <input type="text" name="Title" id="tangentTitle"/>
                 </li>
                 <li>
-                    <label for="Text">Text</label>
-                    <input type="text" name="Text" id="tangentText">
-                </li>
-                <li>
                     <label for="photo">Photo</label>
                     <input name="photo" type="file" id="fileControl"/>
                 </li>
+                <li>
+                    <label for="Text">Text</label>
+                    <textarea name="Text" id="text"></textarea>
+                </li>
+
             </ol>
             <input type="submit" value="Add" />
         </fieldset>

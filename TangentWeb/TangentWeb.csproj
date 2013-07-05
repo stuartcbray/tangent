@@ -289,6 +289,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.dotdotdot-1.5.9.js" />
+    <Content Include="Scripts\jquery.dotdotdot-1.5.9.min.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.signalR-1.1.2.js" />

@@ -152,6 +152,11 @@ namespace TangentWeb.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
+            if (tangent.PosterId != User.Identity.Name)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, new HttpException("You can only delete your own Tangents."));
+            }
+
             db.TangentItems.Remove(tangent);
 
             try
