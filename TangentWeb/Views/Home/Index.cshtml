@@ -110,23 +110,27 @@
                     $('#status').fadeIn();
 
                     if ($('#tangentTitle').val() == '') {
-                        status.html("Tangent must have text.");
+                        status.html("Tangent must have a title.");
                         return false;
                     } else if ($('#text').val() == '') {
-                        status.html("Tangent must have a title.");
+                        status.html("Tangent must have content.");
                         return false;
                     }
 
                     // Tangents are allowed to not have photos. 
                     var file = $('#fileControl')[0].files[0];
-                    if (file) {
-                        if (file.size > 100000) {
-                            status.html("File is too big. Please keep it under 100KB.");
-                            return false;
-                        } else if (file.type != "image/png" && file.type != "image/jpeg") {
-                            status.html("File must be a JPEG or PNG image.");
-                            return false;
-                        }
+
+                    if (!file) {
+                        status.html("Tangent must have a photo.");
+                        return false;
+                    }
+
+                    if (file.size > 100000) {
+                        status.html("File is too big. Please keep it under 100KB.");
+                        return false;
+                    } else if (file.type != "image/png" && file.type != "image/jpeg") {
+                        status.html("File must be a JPEG or PNG image.");
+                        return false;
                     }
                     return true;
                 },
@@ -228,7 +232,7 @@
                 </li>
 
             </ol>
-            <input type="submit" value="Add" />
+            <input type="submit" value="Post Tangent" />
         </fieldset>
     
         <div id="progressBar" class="progress">
