@@ -57,6 +57,8 @@
                     callback: hideLinkIfNoTruncation
                 });
 
+                $('.tangentHeader').dotdotdot();
+
 
             });
 
@@ -80,82 +82,6 @@
             }
         };
 
-
-        $(document).ready(function () {
-
-            var bar = $('.bar');
-            var percent = $('.percent');
-            var status = $('#status');
-
-            var options = {
-                headers: {
-                    'RequestVerificationToken': '@TokenHeaderValue()'
-                },
-                success: function (tangent) {
-                    var percentVal = '100%';
-                    bar.width(percentVal)
-                    percent.html(percentVal);
-                },
-                beforeSend: function () {
-                    status.empty();
-                    var percentVal = '0%';
-                    bar.width(percentVal)
-                    percent.html(percentVal);
-
-                    $('#progressBar').fadeIn();
-
-                    status.html("Posting Tangent ...");
-                },
-                beforeSubmit: function () {
-                    $('#status').fadeIn();
-
-                    if ($('#tangentTitle').val() == '') {
-                        status.html("Tangent must have a title.");
-                        return false;
-                    } else if ($('#text').val() == '') {
-                        status.html("Tangent must have content.");
-                        return false;
-                    }
-
-                    // Tangents are allowed to not have photos. 
-                    var file = $('#fileControl')[0].files[0];
-
-                    if (!file) {
-                        status.html("Tangent must have a photo.");
-                        return false;
-                    }
-
-                    if (file.size > 100000) {
-                        status.html("File is too big. Please keep it under 100KB.");
-                        return false;
-                    } else if (file.type != "image/png" && file.type != "image/jpeg") {
-                        status.html("File must be a JPEG or PNG image.");
-                        return false;
-                    }
-                    return true;
-                },
-                uploadProgress: function (event, position, total, percentComplete) {
-                    var percentVal = percentComplete + '%';
-                    bar.width(percentVal)
-                    percent.html(percentVal);
-                },
-                complete: function (xhr) {
-                    status.html("Tangent posted!");
-                    $('#status').fadeOut(5000, function () {
-                        // Animation complete.
-                        $('#progressBar').hide();
-                    });
-
-                    var fc = $('#fileControl');
-                    fc.replaceWith(fc = fc.clone(true));
-                    $('#text').val('');
-                    $('#tangentTitle').val('');
-                }
-            };
-
-            $('#addTangent').ajaxForm(options);
-
-        });
     </script>
 
 
@@ -171,6 +97,8 @@
                     after: "a.readMoreLink",
                     callback: hideLinkIfNoTruncation
                 });
+
+                $('.tangentHeader').dotdotdot();
             }
 
             $.connection.hub.start().done(function () {
@@ -182,7 +110,11 @@
 
 <ul id="tangents" data-bind="foreach: tangents">
     <li class="ui-widget-content ui-corner-all">
-        <h2 data-bind="text: Title" class="ui-widget-header"></h2>
+
+        <div class="tangentHeader">
+            <span data-bind="text: $data.Title || 'Untitled'"></span>
+        </div>
+
         <div class="crop">
             <img data-bind="attr: { src: $data.ImageUrl }" />  
         </div>
@@ -192,62 +124,17 @@
             </h5>
         </div>
         <div class="tangentText">
-            <p>
-                <span data-bind="text: $data.Text || 'Text?'"></span>
-                <a href="#" class="readMoreLink">Read More</a>
-            </p>
+            <span data-bind="text: $data.Text || 'Text?'"></span>
+            <a href="#" class="readMoreLink">Read More</a>
         </div>
         
         @if (Request.IsAuthenticated) 
         {
             <div data-bind="visible: $data.PosterId === tangentsViewModel.UserName ">
-                <p><a data-bind="attr: { href: self }, click: $root.removeTangent" class="removeTangent ui-state-default ui-corner-all">Remove</a></p>
+                <a data-bind="attr: { href: self }, click: $root.removeTangent" class="removeTangent ui-state-default ui-corner-all">Remove</a>
             </div>
         }
 
     </li>
 </ul>
-
-
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("Tangents", "api", FormMethod.Post, new Dictionary<string, object> { { "id", "addTangent" }, { "enctype", "multipart/form-data" } }))
-    {
-        @Html.AntiForgeryToken()
-    
-        <fieldset>
-            <legend>Add New Tangent</legend>
-            <ol>
-                <li>
-                    <label for="Title">Title</label>
-                    <input type="text" name="Title" id="tangentTitle"/>
-                </li>
-                <li>
-                    <label for="photo">Photo</label>
-                    <input name="photo" type="file" id="fileControl"/>
-                </li>
-                <li>
-                    <label for="Text">Text</label>
-                    <textarea name="Text" id="text"></textarea>
-                </li>
-
-            </ol>
-            <input type="submit" value="Post Tangent" />
-        </fieldset>
-    
-        <div id="progressBar" class="progress">
-            <div class="bar"></div >
-            <div class="percent">0%</div >
-        </div>
-    
-        <div id="status"></div>
-   
-    }
-
-}
-else
-{
-    <h3>Welcome to Tangent.</h3>
-}
-
 

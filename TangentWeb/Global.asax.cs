@@ -26,7 +26,7 @@ namespace TangentWeb
       BundleConfig.RegisterBundles(BundleTable.Bundles);
       AuthConfig.RegisterAuth();
       GlobalConfiguration.Configuration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
-      System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseAlways<TangentWeb.Models.TangentWebContext>());    
+      System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<TangentWeb.Models.TangentWebContext>());    
     }
   }
 }
