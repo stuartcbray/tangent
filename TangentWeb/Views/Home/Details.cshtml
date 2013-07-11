@@ -4,51 +4,39 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
 <fieldset>
     <legend>TangentItem</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ImageUrl)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ImageUrl)
-    </div>
+    <img src="@Html.DisplayFor(model => model.ImageUrl)" />  
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
-    </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
+        <h2>@Html.DisplayFor(model => model.Title)</h2>
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Text)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Text)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Date)
-    </div>
+    
     <div class="display-field">
         @Html.DisplayFor(model => model.Date)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Complete)
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PosterId)
+    </div>
+
+    <div class="display-field">
+       <p>@Html.DisplayFor(model => model.Text)</p>
+    </div>
+
+   @* <div class="display-label">
+         @Html.DisplayNameFor(model => model.Status)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Complete)
+        @Html.DisplayFor(model => model.Status)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.PosterId)
+         @Html.DisplayNameFor(model => model.Visibility)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.PosterId)
+        @Html.DisplayFor(model => model.Visibility)
     </div>
 
     <div class="display-label">
@@ -70,9 +58,9 @@
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.OriginalUrl)
-    </div>
+    </div>*@
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+@*    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>

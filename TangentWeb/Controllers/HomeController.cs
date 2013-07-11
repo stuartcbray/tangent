@@ -11,6 +11,14 @@ namespace TangentWeb.Controllers
 {
     public class HomeController : Controller
     {
+
+        readonly TangentWebContext db;
+
+        public HomeController()
+        {
+            db = new TangentWebContext();
+        }
+
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -25,6 +33,18 @@ namespace TangentWeb.Controllers
         public ActionResult Compose()
         {
           return View();
+        }
+
+        //
+        // GET: /Home/Details/5
+        public ActionResult Details(int id = 0)
+        {
+            TangentItem tangentitem = db.TangentItems.Find(id);
+            if (tangentitem == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tangentitem);
         }
     }
 }

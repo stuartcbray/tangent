@@ -49,6 +49,11 @@
                 });
             }
 
+            self.readMore = function (element) {
+                var vm = ko.dataFor(element);
+                window.location.href = "/Home/Details/" + vm.id;
+            }
+
             $.getJSON("api/tangents", function (data) {
                 self.tangents(data);
 
@@ -125,9 +130,9 @@
         </div>
         <div class="tangentText">
             <span data-bind="text: $data.Text || 'Text?'"></span>
-            <a href="#" class="readMoreLink">Read More</a>
+            <a href="javascript:void(0);" onclick="tangentsViewModel.readMore(this);"  class="readMoreLink">Read More</a>
         </div>
-        
+
         @if (Request.IsAuthenticated) 
         {
             <div data-bind="visible: $data.PosterId === tangentsViewModel.UserName ">
