@@ -123,7 +123,7 @@ form li
 
 .tangentTextDetailView
 {
-	width: 560px;
+	max-width: 560px;
     font-size: 14px;
 	text-align: left;
 	margin-bottom: 20px;
