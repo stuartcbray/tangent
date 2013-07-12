@@ -121,6 +121,26 @@ form li
 	text-align: left;
 }
 
+.tangentTextDetailView
+{
+	width: 560px;
+    font-size: 14px;
+	text-align: left;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+
+.tangentTitleDetailView 
+{
+	font-size: 26px;
+}
+
+.tangentAboutDetailView
+{
+	font-size: 18px;
+}
+
 .crop img 
 {
     width: 300px;

@@ -1,66 +1,70 @@
 ﻿@model TangentWeb.Models.TangentItem
 
+@using TangentWeb.Utils;
+
 @{
     ViewBag.Title = "Details";
 }
 
-<fieldset>
-    <legend>TangentItem</legend>
+@section Scripts {
 
-    <img src="@Html.DisplayFor(model => model.ImageUrl)" />  
+    <script type="text/javascript">
 
-    <div class="display-field">
-        <h2>@Html.DisplayFor(model => model.Title)</h2>
-    </div>
+        @functions
+        {            
+            public string TokenHeaderValue()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
+
+        function DeleteTangent (id) {
+            var deleteUrl = "/api/tangents/" + id;
+            $.ajax({
+                type: "DELETE",
+                url: deleteUrl,
+                success: function () {
+                    window.location.replace("/");
+                },
+                headers: {
+                    'RequestVerificationToken': '@TokenHeaderValue()'
+                        }
+                    });
+        }
+
+        $(function () {
+            var then = $('#published');
+
+            var utcDate = parseInt(then.attr('data-date'), 10) || 0;
+            var local = moment.utc(utcDate).local();
+
+            var formattedDate = local.format("MMM D YYYY, h:mm:ss a");
+            then.text(formattedDate);
+        });
     
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Date)
-    </div>
+    </script>
+}
 
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PosterId)
-    </div>
 
-    <div class="display-field">
-       <p>@Html.DisplayFor(model => model.Text)</p>
-    </div>
+<div class="crop">
+    <img src="@Html.DisplayFor(model => model.ImageUrl)" />  
+</div>
 
-   @* <div class="display-label">
-         @Html.DisplayNameFor(model => model.Status)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Status)
-    </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Visibility)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Visibility)
-    </div>
+<div class="tangentTitleDetailView">@Html.DisplayFor(model => model.Title)</div>
+<div class="tangentAboutDetailView"><span id="published" data-date="@Model.Date.GetEpochTicks()"></span> by <span>@Html.DisplayFor(model => model.PosterId)</span></div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.PosterImageUrl)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PosterImageUrl)
-    </div>
+<div class="tangentTextDetailView">
+    <span>@Html.DisplayFor(model => model.Text)</span>
+</div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.DeviceToken)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DeviceToken)
-    </div>
+@if (Request.IsAuthenticated && (User.Identity.Name == Model.PosterId))
+{
+    <a href="javascript:void(0);" onclick="DeleteTangent(@Html.DisplayFor(model => model.id))" class="removeTangent ui-state-default ui-corner-all">Remove</a>
+}
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.OriginalUrl)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.OriginalUrl)
-    </div>*@
-</fieldset>
 <p>
-@*    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>
