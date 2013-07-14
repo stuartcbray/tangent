@@ -359,6 +359,12 @@
       <DependentUpon>201306292350226_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SWTOAuth.Server\SWTOAuth.Server.csproj">
+      <Project>{5cd66651-8d6c-4803-bc16-6b61bc5ad5a5}</Project>
+      <Name>SWTOAuth.Server</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

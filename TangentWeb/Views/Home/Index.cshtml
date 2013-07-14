@@ -44,7 +44,7 @@
                         self.tangents.remove(tangent);
                     },
                     headers: {
-                    'RequestVerificationToken': '@TokenHeaderValue()'
+                        'RequestVerificationToken': '@TokenHeaderValue()'
                     }
                 });
             }
@@ -55,16 +55,16 @@
             }
 
             $.getJSON("api/tangents", function (data) {
-                self.tangents(data);
+                        self.tangents(data);
 
-                $('.tangentText').dotdotdot({
-                    after: "a.readMoreLink",
-                    callback: hideLinkIfNoTruncation
-                });
+                        $('.tangentText').dotdotdot({
+                            after: "a.readMoreLink",
+                            callback: hideLinkIfNoTruncation
+                        });
 
-                $('.tangentHeader').dotdotdot();
-
-
+                        $('.tangentHeader').dotdotdot();
+            
+               
             });
 
         }

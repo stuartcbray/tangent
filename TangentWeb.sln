@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{32E474
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SWTOAuth.Server", "SWTOAuth.Server\SWTOAuth.Server.csproj", "{5CD66651-8D6C-4803-BC16-6B61BC5AD5A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{C22FFC3E-7C1D-4427-B675-88B31F7B4AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C22FFC3E-7C1D-4427-B675-88B31F7B4AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C22FFC3E-7C1D-4427-B675-88B31F7B4AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CD66651-8D6C-4803-BC16-6B61BC5AD5A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD66651-8D6C-4803-BC16-6B61BC5AD5A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD66651-8D6C-4803-BC16-6B61BC5AD5A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD66651-8D6C-4803-BC16-6B61BC5AD5A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
