@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using Microsoft.AspNet.SignalR;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -36,7 +35,7 @@ namespace TangentWeb.Controllers
         }
 
         // GET api/Tangents/5
-        [AllowAnonymous]
+        [Authorize]
         public TangentItem GetTangentItem(int id)
         {
             TangentItem tangentitem = db.TangentItems.Find(id);
@@ -119,7 +118,7 @@ namespace TangentWeb.Controllers
                     }
                    
                     // Broadcast on the hub for all listeners
-                    var context = GlobalHost.ConnectionManager.GetHubContext<Hubs.TangentHub>();
+                    var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<Hubs.TangentHub>();
                     context.Clients.All.newTangentReceived(tangent);
 
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, tangent);

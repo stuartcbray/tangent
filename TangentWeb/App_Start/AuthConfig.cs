@@ -17,17 +17,18 @@ namespace TangentWeb
       //OAuthWebSecurity.RegisterMicrosoftClient(
       //    clientId: "",
       //    clientSecret: "");
+      
+      // Now that we use Access Control for auth, we don't need Forms auth 
+      //OAuthWebSecurity.RegisterTwitterClient(
+      //    consumerKey: "XIx1pPWCNVASijm3yA25jQ",
+      //    consumerSecret: "HOyZMjwtP8VKZQ9L54qjtwv2ZLjMOnAElWbWj5jyY");
 
-      OAuthWebSecurity.RegisterTwitterClient(
-          consumerKey: "XIx1pPWCNVASijm3yA25jQ",
-          consumerSecret: "HOyZMjwtP8VKZQ9L54qjtwv2ZLjMOnAElWbWj5jyY");
+      //OAuthWebSecurity.RegisterFacebookClient(
+      //  appId: "173849559452771",
+      //  appSecret: "da2b50d91a21582011ee2e0f443566f4");
 
-      OAuthWebSecurity.RegisterFacebookClient(
-        appId: "173849559452771",
-        appSecret: "da2b50d91a21582011ee2e0f443566f4");
-
-      OAuthWebSecurity.RegisterGoogleClient();
-      OAuthWebSecurity.RegisterYahooClient();
+      //OAuthWebSecurity.RegisterGoogleClient();
+      //OAuthWebSecurity.RegisterYahooClient();
     }
   }
 }

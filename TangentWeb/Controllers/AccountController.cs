@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using TangentWeb.Filters;
 using TangentWeb.Models;
+using System.IdentityModel.Services;
 
 namespace TangentWeb.Controllers
 {
@@ -20,29 +21,9 @@ namespace TangentWeb.Controllers
     //
     // GET: /Account/Login
 
-    [AllowAnonymous]
     public ActionResult Login(string returnUrl)
     {
-      ViewBag.ReturnUrl = returnUrl;
-      return View();
-    }
-
-    //
-    // POST: /Account/Login
-
-    [HttpPost]
-    [AllowAnonymous]
-    [ValidateAntiForgeryToken]
-    public ActionResult Login(LoginModel model, string returnUrl)
-    {
-      if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
-      {
-        return RedirectToLocal(returnUrl);
-      }
-
-      // If we got this far, something failed, redisplay form
-      ModelState.AddModelError("", "The user name or password provided is incorrect.");
-      return View(model);
+        return RedirectToAction("Index", "Home");
     }
 
     //
@@ -52,8 +33,20 @@ namespace TangentWeb.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult LogOff()
     {
-      WebSecurity.Logout();
 
+      WSFederationAuthenticationModule fam = FederatedAuthentication.WSFederationAuthenticationModule;
+
+      try
+      {
+          WebSecurity.Logout();
+          FormsAuthentication.SignOut();
+      }
+      finally
+      {
+          fam.SignOut(true);
+      }
+
+      // Return to home after LogOff
       return RedirectToAction("Index", "Home");
     }
 

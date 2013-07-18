@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.WindowsAzure;
-using SWTOAuth.Server;
 
 namespace TangentWeb
 {
@@ -26,10 +25,9 @@ namespace TangentWeb
       FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
       RouteConfig.RegisterRoutes(RouteTable.Routes);
       BundleConfig.RegisterBundles(BundleTable.Bundles);
-      AuthConfig.RegisterAuth();
+      //AuthConfig.RegisterAuth();
       GlobalConfiguration.Configuration.Filters.Add(new System.Web.Http.AuthorizeAttribute());
       System.Data.Entity.Database.SetInitializer(new System.Data.Entity.DropCreateDatabaseIfModelChanges<TangentWeb.Models.TangentWebContext>());
-      GlobalConfiguration.Configuration.MessageHandlers.Add(new TokenValidationHandler(CloudConfigurationManager.GetSetting("TrustedTokenPolicyKey")));
     }
   }
 }
