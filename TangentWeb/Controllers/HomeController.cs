@@ -28,12 +28,6 @@ namespace TangentWeb.Controllers
         }
 
         [Authorize]
-        public ActionResult About()
-        {
-          return View();
-        }  
-
-        [Authorize]
         public ActionResult Compose()
         {
           return View();
@@ -52,6 +46,7 @@ namespace TangentWeb.Controllers
 
         //
         // GET: /Home/Details/5
+        [Authorize]
         public ActionResult Details(int id = 0)
         {
             TangentItem tangentitem = db.TangentItems.Find(id);

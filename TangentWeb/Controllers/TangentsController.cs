@@ -71,7 +71,7 @@ namespace TangentWeb.Controllers
 
                     tangent.ImageUrl = blob.Uri.AbsoluteUri;
                 }
-                catch (Exception e)
+                catch 
                 {
                     // Log me
                 }
@@ -194,7 +194,13 @@ namespace TangentWeb.Controllers
                 CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             var blobClient = storageAccount.CreateCloudBlobClient();
+
+#if DEBUG
+            var container = blobClient.GetContainerReference("photos-debug");
+#else
             var container = blobClient.GetContainerReference("photos");
+#endif
+
 
             // Create the container if it doesn't already exist.
             container.CreateIfNotExists();
