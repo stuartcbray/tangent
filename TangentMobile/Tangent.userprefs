@@ -1,0 +1,36 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone.6.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Federation/STSUtilities/FedAuthCookieUtility.cs">
+    <Files>
+      <File FileName="Tangent/WelcomeViewController.cs" Line="1" Column="1" />
+      <File FileName="Federation/AccessControlServiceSignInController.xib.cs" Line="1" Column="1" />
+      <File FileName="Federation/iOS/SignInWebViewDelegate.cs" Line="1" Column="1" />
+      <File FileName="Federation/iOS/SignInCookieReceivedEventArgs.cs" Line="1" Column="1" />
+      <File FileName="Federation/STSUtilities/FedAuthCookieUtility.cs" Line="22" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Tangent" expanded="True" />
+          <Node name="TheFactorM.Federation.iOS" expanded="True">
+            <Node name="STSUtilities" expanded="True">
+              <Node name="FedAuthCookieUtility.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Developer/MonoTouch/Source/mono/mcs/class/corlib/System.Threading.Tasks/TaskExceptionSlot.cs" line="55" column="1" />
+      <Breakpoint file="/Users/stuartbray/Projects/TangentMobile/Tangent/WelcomeViewController.cs" line="53" column="1" />
+      <Breakpoint file="/Users/stuartbray/Projects/TangentMobile/Federation/STSUtilities/FedAuthCookieUtility.cs" line="22" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="Federation/iOS/SignInWebViewDelegate.cs" line="56" offsetX="932" offsetY="825" expression="MonoTouch.Foundation.NSHttpCookieStorage.SharedStorage.Cookies[0]" liveUpdate="False" />
+    <Watch file="Federation/iOS/SignInWebViewDelegate.cs" line="56" offsetX="932" offsetY="825" expression="MonoTouch.Foundation.NSHttpCookieStorage.SharedStorage.Cookies" liveUpdate="False" />
+    <Watch file="Federation/iOS/SignInWebViewDelegate.cs" line="56" offsetX="932" offsetY="825" expression="MonoTouch.Foundation.NSHttpCookieStorage.SharedStorage.Cookies" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>

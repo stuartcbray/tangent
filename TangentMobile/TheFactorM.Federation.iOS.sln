@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFactorM.Federation.iOS", "Federation\TheFactorM.Federation.iOS.csproj", "{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhone = Debug|iPhone
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Debug|iPhone.Build.0 = Debug|iPhone
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Release|iPhone.ActiveCfg = Release|iPhone
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Release|iPhone.Build.0 = Release|iPhone
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Federation\TheFactorM.Federation.iOS.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

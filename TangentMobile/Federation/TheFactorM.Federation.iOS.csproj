@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BB8A9518-0F8F-4FB1-90E6-9655AFB67C00}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TheFactorM.Federation</RootNamespace>
+    <AssemblyName>TheFactorM.Federation.iOS</AssemblyName>
+    <ReleaseVersion>1.0.2</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;MONOTOUCH</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchUseArmv7>false</MtouchUseArmv7>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchUseArmv7>false</MtouchUseArmv7>
+    <DefineConstants>MONOTOUCH</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;MONOTOUCH</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>True</MtouchDebug>
+    <MtouchUseArmv7>false</MtouchUseArmv7>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseArmv7>false</MtouchUseArmv7>
+    <DefineConstants>MONOTOUCH</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Json" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Components\json.net-4.5.11\lib\ios\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="STSUtilities\GetIdentityProviderListEventArgs.cs" />
+    <Compile Include="STSUtilities\IdentityProviderInformation.cs" />
+    <Compile Include="STSUtilities\JSONIdentityProviderDiscoveryClient.cs" />
+    <Compile Include="STSUtilities\SignInCompletedEventArgs.cs" />
+    <Compile Include="STSUtilities\FedAuthCookieUtility.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="iOS\CookieUtilities.cs" />
+    <Compile Include="iOS\IdentityProviderSelectedEventArgs.cs" />
+    <Compile Include="iOS\SignInWebViewDelegate.cs" />
+    <Compile Include="iOS\DateTimeExtensions.cs" />
+    <Compile Include="AccessControlServiceSignInController.xib.cs">
+      <DependentUpon>AccessControlServiceSignInController.xib</DependentUpon>
+    </Compile>
+    <Compile Include="AccessControlServiceSignInController.xib.designer.cs">
+      <DependentUpon>AccessControlServiceSignInController.xib</DependentUpon>
+    </Compile>
+    <Compile Include="SignInController.cs" />
+    <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Device\Settings\iOS\SettingsProvider.cs" />
+    <Compile Include="Device\Settings\iOS\UserDefaultsHelper.cs" />
+    <Compile Include="Device\Settings\ISettingsProvider.cs" />
+    <Compile Include="Device\Settings\SettingsBase.cs" />
+    <Compile Include="Device\Persistence\IsolatedStorageUtil.cs" />
+    <Compile Include="Device\DeviceContext\iOS\DeviceContext.cs" />
+    <Compile Include="Device\DeviceContext\DeviceContext.cs" />
+    <Compile Include="iOS\SignInCookieReceivedEventArgs.cs" />
+    <Compile Include="Device\Persistence\iOS\IsolatedStorageUtil.cs" />
+    <Compile Include="STSUtilities\SignInErrorEventArgs.cs" />
+    <Compile Include="iOS\IdentityProviderTableViewSource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="iOS\" />
+    <Folder Include="Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="AccessControlServiceSignInController.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="json.net">
+      <InstallationInProgress>False</InstallationInProgress>
+      <Version>4.5.11</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+</Project>

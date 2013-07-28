@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{46EE9C60-6A33-4BC6-BEBF-59198A2C9EFF}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TheFactorM.Federation.Android</RootNamespace>
+    <AssemblyName>TheFactorM.Federation.Android</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidSupportedAbis>armeabi</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MONODROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Components\json.net-4.5.11\lib\android\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="SignInController.cs" />
+    <Compile Include="STSUtilities\FedAuthCookieUtility.cs" />
+    <Compile Include="STSUtilities\GetIdentityProviderListEventArgs.cs" />
+    <Compile Include="STSUtilities\IdentityProviderInformation.cs" />
+    <Compile Include="STSUtilities\JSONIdentityProviderDiscoveryClient.cs" />
+    <Compile Include="STSUtilities\SignInCompletedEventArgs.cs" />
+    <Compile Include="Device\DeviceContext\Android\DeviceContext.cs" />
+    <Compile Include="Device\DeviceContext\DeviceContext.cs" />
+    <Compile Include="Device\Persistence\Android\IsolatedStorageUtil.cs" />
+    <Compile Include="Device\Persistence\IsolatedStorageUtil.cs" />
+    <Compile Include="Device\Settings\ISettingsProvider.cs" />
+    <Compile Include="Device\Settings\SettingsBase.cs" />
+    <Compile Include="Device\Settings\Android\SettingsProvider.cs" />
+    <Compile Include="Android\Activities\IdentityProvidersListActivity.cs" />
+    <Compile Include="Android\Activities\SignInActivity.cs" />
+    <Compile Include="Android\Adapters\IdentityProviderListAdapter.cs" />
+    <Compile Include="STSUtilities\SignInErrorEventArgs.cs" />
+    <Compile Include="Android\RequestCodes.cs" />
+    <Compile Include="Android\Extras.cs" />
+    <Compile Include="Android\SignInWebViewClient.cs" />
+    <Compile Include="Android\Activities\ActivityExtensions.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <XamarinComponentReference Include="json.net">
+      <InstallationInProgress>False</InstallationInProgress>
+      <Version>4.5.11</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Android\" />
+    <Folder Include="Android\Activities\" />
+    <Folder Include="Android\Adapters\" />
+  </ItemGroup>
+</Project>

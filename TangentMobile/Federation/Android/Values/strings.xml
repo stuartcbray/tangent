@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+  <string name="SelectIdentityProviderActivity">Select Identity Provider</string>
+  <string name="SignInActivity">Sign In</string>
+  
+  <!-- Sign In screen -->
+  <string name="SignInProgressTitle">Signing in...</string>
+  <string name="SignInProgressMessage">Signing you into the application...</string>
+  <string name="SignInFailedMessage">Sign in failed. Please verify your credentials.</string>
+  <string name="SignInTechnicalError">Woops, encountered a technical difficulty signing you in. Please try again later.</string>
+  <string name="NoIdentityProvidersAvailable">There are currently no identity providers available. Please try again later.</string>
+
+    <!-- Common strings -->
+  <string name="SignInErrorDialogAcceptButton">Ok</string>
+  <string name="SignInProgressLoadingTitle">Loading</string>
+  <string name="SignInProgressLoadingMessage">Loading data from the server...</string>
+  <string name="SignInErrorDialogTitle">Operation failed</string>
+  <string name="SignInErrorLoading">Could not retrieve {0} from the server. Restart the application and try again.</string>
+
+</resources>

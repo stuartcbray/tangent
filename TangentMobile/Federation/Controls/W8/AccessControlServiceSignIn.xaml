@@ -1,0 +1,52 @@
+﻿<UserControl
+    x:Class="TheFactorM.Federation.W8.Controls.AccessControlServiceSignIn"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TheFactorM.Federation.W8.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="480"
+    d:DesignWidth="680">
+
+    <Grid Background="#CC000000">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid Background="White" Margin="0,115,0,90" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"  Background="LightGray">
+                <Button x:Name="backButton" Click="GoBack" 
+                        Style="{StaticResource BackButtonStyle}" />
+                <TextBlock x:Name="Login" Margin="10,15,0,0"  Text="Inloggen bij BCC Veiling" Style="{StaticResource SubheaderTextStyle}" />
+            </StackPanel>
+            <Grid HorizontalAlignment="Stretch" Grid.Row="1">
+                
+                <StackPanel  Grid.Row="0" x:Name="ProgressPanel">
+                    <StackPanel>
+                        <ProgressBar  x:Name="progressBar" IsIndeterminate="True"  />
+                        <TextBlock  x:Name="Message" Text=""  HorizontalAlignment="Center" Style="{StaticResource PageSubheaderTextStyle}"  Foreground="Black" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="1" x:Name="identityProviderDiscovery"  >
+                    <TextBlock  Margin="95,20,40,0" Text="Met welk type account wilt U inloggen?" Style="{StaticResource PageSubheaderTextStyle}" Foreground="Black" TextWrapping="Wrap" />
+                    <Grid x:Name="HomeRealmSelection" Margin="95,40,0,0">
+                        <ListView x:Name="identityProviderList" Grid.RowSpan="2" Margin="40,0,20,20" IsItemClickEnabled="true" SelectionMode="None" ItemClick="OnIdentityProviderSelected">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Style="{StaticResource ItemTextStyle}" FontSize="18" Foreground="Black" Margin="5" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </StackPanel>
+                <WebView Grid.Row="1" x:Name="BrowserSigninControl" Visibility="Collapsed"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
